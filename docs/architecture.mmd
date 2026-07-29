@@ -1,0 +1,33 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#0f172a"
+    primaryTextColor: "#e2e8f0"
+    primaryBorderColor: "#0063e5"
+    lineColor: "#38bdf8"
+    secondaryColor: "#1e293b"
+    tertiaryColor: "#1e293b"
+    clusterBkg: "#f0f7ff"
+    clusterBorder: "#bfdbfe"
+    edgeLabelBackground: "#e8f0ff"
+    mainBkg: "#0f172a"
+    nodeBorder: "#0063e5"
+    titleColor: "#1e1b4b"
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, sans-serif"
+    fontSize: "13px"
+---
+flowchart TB
+    User([Learner]) --> HTML["index.html\nApp shell + #view"]
+
+    subgraph App["ES Modules"]
+        HTML --> app["app.js\nEntry point"]
+        app --> state["state.js\nRoute + progress + localStorage"]
+        app --> events["events.js\nHash routing, copy, mark-done"]
+        events --> render["render.js\nHub + track pages"]
+        render --> content["content.js\n7 tracks, 5 levels, tested code"]
+        render --> utils["utils.js\nescHtml, toast, helpers"]
+    end
+
+    state <-->|"primer-progress-v1"| Storage[("localStorage")]
+    events -->|"#/track/:id"| render
