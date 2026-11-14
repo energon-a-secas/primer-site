@@ -27,27 +27,15 @@ function renderHub(s) {
   TRACKS.forEach((t) => { const p = trackProgress(s, t); done += p.done; total += p.total; });
   const pct = total ? Math.round((done / total) * 100) : 0;
 
+  // No hero: the header carries the name and the one line, and the hub opens
+  // on its first level of tracks. Overall progress shows once there is some.
   const intro = `
-    <section class="hero">
-      <p class="hero__eyebrow">Machine learning, from zero</p>
-      <h2 class="hero__title">Get the same insights and instincts as a data person, one small project at a time.</h2>
-      <p class="hero__lead">
-        Primer is a hands-on ramp for people who are not data-oriented yet. Every track runs on your own
-        laptop, escalates in difficulty, and ends with a pet project you can paste and run. Build the small
-        version first, then map it to what Fortune 500 teams run at scale.
-      </p>
-      <div class="hero__meta">
-        <span class="chip">7 tracks</span>
-        <span class="chip">5 levels</span>
-        <span class="chip">Copy-paste code</span>
-        <span class="chip">Runs locally, free</span>
-      </div>
-      ${total ? `
-      <div class="hero__progress" aria-label="Your overall progress">
-        <div class="progress"><div class="progress__bar" style="width:${pct}%"></div></div>
-        <span class="hero__progress-label">${done} of ${total} steps done</span>
-      </div>` : ''}
-    </section>`;
+    <h2 class="visually-hidden">Tracks by level</h2>
+    ${done ? `
+    <div class="hub-progress">
+      <div class="progress"><div class="progress__bar" style="width:${pct}%"></div></div>
+      <span class="hub-progress__label">${done} of ${total} steps done</span>
+    </div>` : ''}`;
 
   const levelBlocks = LEVELS.map((lvl) => {
     const tracks = TRACKS.filter((t) => t.level === lvl.n);
@@ -107,9 +95,8 @@ function renderTrack(s, t) {
     <div class="track-page" style="--track-accent:${t.accent}">
       <a class="back-link" href="#/">&larr; All tracks</a>
       <header class="track-head">
-        <span class="track-head__level">Level ${t.level}</span>
         <h2 class="track-head__title">${escHtml(t.title)}</h2>
-        <p class="track-head__tagline">${escHtml(t.tagline)}</p>
+        <p class="track-head__tagline"><span class="track-head__level">Level ${t.level}</span> ${escHtml(t.tagline)}</p>
       </header>
 
       <div class="objective card">
